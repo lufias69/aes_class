@@ -38,9 +38,7 @@ def typo(kalimat, kata_unik, toleransi=0.95):
     for ix, kata in enumerate(kalimat):
         similarity = list()
         for pembanding in kata_unik:
-#             print(pembanding, kata)
             similarity.append(distance.get_jaro_distance(kata, pembanding, winkler=True, scaling=0.1))
-#         print(similarity)
         if max(similarity)>=toleransi:
             kalimat[ix]=kata_unik[similarity.index(max(similarity))]
     return " ".join(kalimat)
@@ -64,11 +62,9 @@ class AES:
         
     def train(self, kunci_jawaban, label):
         self.kata_unik = get_unique_words(kunci_jawaban)
-#         print(self.kata_unik)
         
         if self.stemming:
             kunci_jawaban = stemming_list(kunci_jawaban)
-#             print(kunci_jawaban)
         
         if self.tf_idf==True and self.ngram==True:
             print("tfidf ngram")
@@ -112,7 +108,7 @@ class AES:
             
         else:
             vectorizer = TfidfVectorizer() 
-            self.model_w = vectorizer.fit(kunci_jawaban)#_transform(corpus)
+            self.model_w = vectorizer.fit(kunci_jawaban)
             self.fitur = vectorizer.get_feature_names()
             self.X = self.model_w.transform(kunci_jawaban)
             self.y= np.array(label)
